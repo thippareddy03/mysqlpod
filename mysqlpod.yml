@@ -1,0 +1,38 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql-pod
+  labels:
+    env: dev
+spec:
+  containers:
+    - name: mysqlpod
+      image: mysql:latest
+      env:
+        - name: MYSQL_USER
+          value: user
+        - name: MYSQL_PASSWORD
+          value: password
+        - name: MYSQL_DATABASE
+          value: mysql
+        - name: MYSQL_ROOT_PASSWORD
+          value: password
+      ports:
+        - name: mysqlport
+          containerPort: 3306
+          protocol: TCP
+      resources:
+        requests:
+          cpu: 200m
+          memory: 512M
+        limits:
+          cpu: 400m
+          memory: 1G
+      volumeMounts:
+        - name: mysqlvol
+          mountPath: /var/lib/mysql
+  volumes: 
+    - name: mysqlvol
+      persistentVolumeClaim:
+        claimName: mysql-pvc
