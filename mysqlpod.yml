@@ -9,15 +9,9 @@ spec:
   containers:
     - name: mysqlpod
       image: mysql:latest
-      env:
-        - name: MYSQL_USER
-          value: user
-        - name: MYSQL_PASSWORD
-          value: password
-        - name: MYSQL_DATABASE
-          value: mysql
-        - name: MYSQL_ROOT_PASSWORD
-          value: password
+      envFrom:
+        - secretRef:
+            name: mysql-secrets
       ports:
         - name: mysqlport
           containerPort: 3306
